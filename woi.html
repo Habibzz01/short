@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<link rel="icon" href="/icon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect - URL Shortener 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #6c63ff;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #6c7fff;
+            --secondary-color: #8b85ff;
+            --accent-color: #ff8787;
+            --text-color: #e0e0e0;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .redirect-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .redirect-animation {
+            margin-bottom: 2rem;
+        }
+
+        .redirect-icon {
+            font-size: 5rem;
+            color: var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+
+        .redirect-message {
+            margin-bottom: 2rem;
+        }
+
+        .redirect-message h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .redirect-message p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .redirect-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .redirect-url {
+            background-color: var(--card-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            width: 100%;
+            word-break: break-all;
+        }
+
+        .redirect-url a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .redirect-url a:hover {
+            text-decoration: underline;
+        }
+
+        .donation-section {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .donation-section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .donation-section p {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .donation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .donation-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .kofi-btn {
+            background-color: #ff5e5b;
+            color: white;
+        }
+
+        .kofi-btn:hover {
+            background-color: #e04845;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 94, 91, 0.3);
+        }
+
+        .saweria-btn {
+            background-color: #00a86b;
+            color: white;
+        }
+
+        .saweria-btn:hover {
+            background-color: #008c5a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 168, 107, 0.3);
+        }
+
+        .skip-btn {
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .skip-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 99, 255, 0.3);
+        }
+
+        .footer {
+            background-color: var(--card-bg);
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-content a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .redirect-message h1 {
+                font-size: 1.5rem;
+            }
+
+            .redirect-message p {
+                font-size: 1rem;
+            }
+
+            .redirect-icon {
+                font-size: 4rem;
+            }
+
+            .donation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .donation-btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="redirect-animation">
+            <i class="fas fa-redirect redirect-icon"></i>
+        </div>
+        <div class="redirect-message">
+            <h1>Anda akan diarahkan</h1>
+            <p>Halaman akan dialihkan dalam <span class="redirect-timer" id="redirectTimer">10</span> detik</p>
+        </div>
+        <div class="redirect-url">
+            <p>URL Tujuan:</p>
+            <a href="#" id="targetUrl" target="_blank">Memuat...</a>
+        </div>
+        <button class="skip-btn" id="skipBtn">
+            <i class="fas fa-forward"></i> Lewati
+        </button>
+        
+        <div class="donation-section">
+            <h2>Dukung Kami</h2>
+            <p>Jika Anda merasa layanan kami bermanfaat, pertimbangkan untuk memberikan donasi untuk mendukung pengembangan lebih lanjut.</p>
+            <div class="donation-buttons">
+                <a href="https://ko-fi.com/yourusername" target="_blank" class="donation-btn kofi-btn">
+                    <i class="fas fa-coffee"></i> Donasi via Ko-fi
+                </a>
+                <a href="https://saweria.co/yourusername" target="_blank" class="donation-btn saweria-btn">
+                    <i class="fas fa-hand-holding-heart"></i> Donasi via Saweria
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 URL Shortener. Hak Cipta Dilindungi.</p>
+                <a href="index.html">Kembali ke Beranda</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfdWsO1H11PjSY7IecaX_QICc14yLOtpQ",
+            authDomain: "xbibzstorage.firebaseapp.com",
+            databaseURL: "https://xbibzstorage-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xbibzstorage",
+            storageBucket: "xbibzstorage.firebasestorage.app",
+            messagingSenderId: "288109423771",
+            appId: "1:288109423771:web:6303592da70243b7016a3e",
+            measurementId: "G-7Q0X7V3HVM"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Get the short code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const shortCode = urlParams.get('code');
+
+        // Redirect timer
+        let redirectTimer = 10;
+        const timerElement = document.getElementById('redirectTimer');
+        const targetUrlElement = document.getElementById('targetUrl');
+        const skipBtn = document.getElementById('skipBtn');
+
+        // Function to handle redirect
+        function handleRedirect(url) {
+            targetUrlElement.href = url;
+            targetUrlElement.textContent = url;
+
+            const countdown = setInterval(() => {
+                redirectTimer--;
+                timerElement.textContent = redirectTimer;
+
+                if (redirectTimer <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = url;
+                }
+            }, 1000);
+
+            skipBtn.addEventListener('click', () => {
+                clearInterval(countdown);
+                window.location.href = url;
+            });
+        }
+
+        // Function to track click
+        function trackClick(shortCode) {
+            const clickRef = database.ref(`urls/${shortCode}/clicks`);
+            const newClickRef = clickRef.push();
+            
+            // Get user IP (using a third-party service)
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const clickData = {
+                        ip: data.ip,
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                        userAgent: navigator.userAgent,
+                        referrer: document.referrer
+                    };
+                    newClickRef.set(clickData);
+                })
+                .catch(error => {
+                    console.error('Error getting IP:', error);
+                    // Still record click without IP
+                    const clickData = {
+                        ip: 'Unknown',
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                        userAgent: navigator.userAgent,
+                        referrer: document.referrer
+                    };
+                    newClickRef.set(clickData);
+                });
+
+            // Increment total clicks
+            const totalClicksRef = database.ref(`urls/${shortCode}/totalClicks`);
+            totalClicksRef.transaction(currentClicks => {
+                return (currentClicks || 0) + 1;
+            });
+        }
+
+        // Check if short code exists and redirect
+        if (shortCode) {
+            const urlRef = database.ref(`urls/${shortCode}`);
+            urlRef.once('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data && data.originalUrl) {
+                    trackClick(shortCode);
+                    handleRedirect(data.originalUrl);
+                } else {
+                    // Handle case when short code doesn't exist
+                    document.querySelector('.redirect-message h1').textContent = 'Link Tidak Ditemukan';
+                    document.querySelector('.redirect-message p').textContent = 'Maaf, link yang Anda cari tidak ada atau telah dihapus.';
+                    document.getElementById('redirectTimer').style.display = 'none';
+                    document.querySelector('.redirect-url').style.display = 'none';
+                    document.getElementById('skipBtn').style.display = 'none';
+                }
+            });
+        } else {
+            // Handle case when no short code is provided
+            document.querySelector('.redirect-message h1').textContent = 'Parameter Tidak Valid';
+            document.querySelector('.redirect-message p').textContent = 'Harap berikan kode link yang valid.';
+            document.getElementById('redirectTimer').style.display = 'none';
+            document.querySelector('.redirect-url').style.display = 'none';
+            document.getElementById('skipBtn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
