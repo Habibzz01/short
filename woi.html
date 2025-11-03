@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<link rel="icon" href="/icon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect - URL Shortener 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #007bff;
+            --color-secondary: #6c757d;
+            --color-light: #f8f9fa;
+            --color-dark: #343a40;
+            --color-text: var(--color-dark);
+            --color-background: var(--color-light);
+            --color-card-bg: #ffffff;
+            --transition-speed: 0.3s;
+        }
+        [data-theme="dark"] {
+            --color-primary: #4da6ff;
+            --color-secondary: #adb5bd;
+            --color-light: #495057;
+            --color-dark: #f8f9fa;
+            --color-text: var(--color-dark);
+            --color-background: #212529;
+            --color-card-bg: #343a40;
+        }
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 2rem;
+            background-color: var(--color-card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+        p { margin-bottom: 2rem; }
+        .donation-buttons a {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+        .donation-buttons a:hover { transform: translateY(-2px); }
+        .kofi-btn { background-color: #13C3FF; }
+        .saweria-btn { background-color: #FAB524; }
+        #countdown { font-size: 1.2rem; margin-top: 2rem; color: var(--color-secondary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Anda akan dialihkan...</h1>
+        <p>Jika Anda merasa layanan ini bermanfaat, pertimbangkan untuk mendukung kami melalui donasi.</p>
+        <div class="donation-buttons">
+            <a href="https://ko-fi.com/your_kofi_id" target="_blank" class="kofi-btn"><i class="fas fa-coffee"></i> Donasi via Ko-fi</a>
+            <a href="https://saweria.co/your_saweria_id" target="_blank" class="saweria-btn"><i class="fas fa-hand-holding-usd"></i> Donasi via Saweria</a>
+        </div>
+        <p id="countdown">Anda akan dialihkan dalam 5 detik...</p>
+    </div>
+    <script>
+        // Simple countdown and redirect logic
+        (function() {
+            const countdownElement = document.getElementById('countdown');
+            let seconds = 5;
+
+            const interval = setInterval(() => {
+                seconds--;
+                countdownElement.textContent = `Anda akan dialihkan dalam ${seconds} detik...`;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const targetUrl = urlParams.get('target');
+                    if (targetUrl) {
+                        window.location.href = targetUrl;
+                    } else {
+                        countdownElement.textContent = "URL tujuan tidak ditemukan!";
+                    }
+                }
+            }, 1000);
+
+            // Theme toggling logic
+            const themeToggle = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+            }
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    let theme = document.documentElement.getAttribute('data-theme');
+                    if (theme === 'dark') {
+                        document.documentElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

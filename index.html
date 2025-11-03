@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<link rel="icon" href="/icon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener 2025 - Beranda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #007bff;
+            --color-secondary: #6c757d;
+            --color-success: #28a745;
+            --color-danger: #dc3545;
+            --color-warning: #ffc107;
+            --color-info: #17a2b8;
+            --color-light: #f8f9fa;
+            --color-dark: #343a40;
+            --color-text: var(--color-dark);
+            --color-background: var(--color-light);
+            --color-card-bg: #ffffff;
+            --color-input-bg: #ffffff;
+            --color-border: #ced4da;
+            --transition-speed: 0.3s;
+        }
+
+        [data-theme="dark"] {
+            --color-primary: #4da6ff;
+            --color-secondary: #adb5bd;
+            --color-success: #45a049;
+            --color-danger: #ff6b6b;
+            --color-warning: #ffeb3b;
+            --color-info: #00bcd4;
+            --color-light: #495057;
+            --color-dark: #f8f9fa;
+            --color-text: var(--color-dark);
+            --color-background: #212529;
+            --color-card-bg: #343a40;
+            --color-input-bg: #495057;
+            --color-border: #6c757d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--color-card-bg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--color-text);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--color-primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--color-primary);
+            transition: width var(--transition-speed) ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--color-primary);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 1.5rem;
+            color: var(--color-text);
+        }
+
+        .theme-toggle:hover {
+            color: var(--color-primary);
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 2rem;
+            background-color: var(--color-card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .shortener-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .input-group input[type="url"],
+        .input-group input[type="text"] {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background-color: var(--color-input-bg);
+            color: var(--color-text);
+            font-size: 1rem;
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .input-group input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color var(--transition-speed), transform 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-light);
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-secondary);
+            color: var(--color-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background-color: var(--color-input-bg);
+            display: none; /* Akan ditampilkan oleh JS */
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .result-box p {
+            margin: 0;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .result-box button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .limit-info {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--color-secondary);
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--color-card-bg);
+            color: var(--color-secondary);
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+            margin-top: auto;
+        }
+
+        /* Table Styling for Dashboard */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        thead tr {
+            background-color: var(--color-light);
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .action-btn {
+            margin-right: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            nav {
+                margin-top: 1rem;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                margin: 0 0.5rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-group button {
+                width: 100%;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr {
+                border: 1px solid var(--color-border);
+                margin-bottom: 0.5rem;
+                border-radius: 8px;
+            }
+
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+
+            td:before {
+                position: absolute;
+                top: 0;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            td:nth-of-type(1):before { content: "URL Pendek"; }
+            td:nth-of-type(2):before { content: "URL Asli"; }
+            td:nth-of-type(3):before { content: "Klik"; }
+            td:nth-of-type(4):before { content: "Aksi"; }
+        }
+
+        /* Smooth Scrollbar for modern feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-background);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-secondary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">URL Shortener 2025</a>
+        <nav>
+            <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+            <a href="profil.html" id="nav-profil" style="display: none;"><i class="fas fa-user-circle"></i> Profil</a>
+            <a href="login.html" id="nav-auth"><i class="fas fa-sign-in-alt"></i> Masuk</a>
+            <a href="#" id="nav-logout" style="display: none;"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+            <i class="fas fa-sun theme-toggle" id="theme-toggle"></i>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Perpendek URL Anda Sekarang!</h1>
+            <form class="shortener-form" id="shortener-form">
+                <div class="input-group">
+                    <input type="url" id="long-url" placeholder="Masukkan URL panjang di sini..." required>
+                    <button type="submit" class="btn-primary" id="shorten-btn"><i class="fas fa-cut"></i> Pendekkan</button>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="custom-alias" placeholder="Alias Kustom (Opsional)">
+                </div>
+            </form>
+
+            <div class="result-box" id="result-box">
+                <p id="short-url-output"></p>
+                <button class="btn-secondary" id="copy-btn"><i class="fas fa-copy"></i> Salin</button>
+            </div>
+
+            <p class="limit-info" id="limit-info">Anda belum login. Batas pembuatan URL: 2 dari 2.</p>
+
+            <div id="user-dashboard" style="display: none; margin-top: 2rem;">
+                <h2>URL Anda</h2>
+                <table id="url-table">
+                    <thead>
+                        <tr>
+                            <th>URL Pendek</th>
+                            <th>URL Asli</th>
+                            <th>Klik</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="url-list">
+                        <!-- Data URL akan diisi oleh JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 URL Shortener 2025. Dibuat dengan <i class="fas fa-heart" style="color: var(--color-danger);"></i>.
+    </footer>
+
+    <!-- Script Firebase dan Logic -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        // Konfigurasi Firebase Anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfdWsO1H11PjSY7IecaX_QICc14yLOtpQ",
+            authDomain: "xbibzstorage.firebaseapp.com",
+            databaseURL: "https://xbibzstorage-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xbibzstorage",
+            storageBucket: "xbibzstorage.firebasestorage.app",
+            messagingSenderId: "288109423771",
+            appId: "1:288109423771:web:6303592da70243b7016a3e",
+            measurementId: "G-7Q0X7V3HVM"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+    </script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="suki.js"></script>
+</body>
+</html>
